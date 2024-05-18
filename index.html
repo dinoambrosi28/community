@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset='utf-8' />
@@ -16,22 +17,24 @@
         container: 'map', // Container ID
         style: 'mapbox://styles/dinoambrosi/clwcebewx00cx01q1ftyxcwwe', // Replace with your style URL
         center: [0, 0], // Starting position [lng, lat]
-        zoom: 2 // Starting zoom
+        zoom: 2, // Starting zoom
+        projection: 'mercator' // Ensure the projection is set to 'mercator'
     });
 
     map.on('load', function () {
         // Add your tileset as a source
         map.addSource('community-members', {
-            type: 'geojson',
-            data: 'mapbox://dinoambrosi.clwchb04h55441uph66oe9xfw-00hl5' // Replace with your tileset URL
+            type: 'vector',
+            url: 'mapbox://dinoambrosi.clwchb04h55441uph66oe9xfw-00hl5' // Replace with your tileset URL
         });
 
         // Add a layer to use the source
         map.addLayer({
-            id: 'community-members-layer',
-            type: 'circle',
-            source: 'community-members',
-            paint: {
+            'id': 'community-members-layer',
+            'type': 'circle',
+            'source': 'community-members',
+            'source-layer': 'Member_Locations', // Replace with the actual source layer name in your tileset
+            'paint': {
                 'circle-radius': 5,
                 'circle-color': '#007cbf'
             }
