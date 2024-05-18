@@ -42,8 +42,8 @@
         // Add popups
         map.on('click', 'community-members-layer', function (e) {
             var coordinates = e.features[0].geometry.coordinates.slice();
-            var name = e.features[0].properties.name;
-            var cohort = e.features[0].properties.cohort;
+            var name = e.features[0].properties.Name;
+            var cohort = e.features[0].properties.Cohort;
 
             // Ensure that if the map is zoomed out such that multiple copies of the feature are visible, the popup appears over the copy being pointed to.
             while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
