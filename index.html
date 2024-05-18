@@ -35,7 +35,7 @@
             'source-layer': 'Member_Locations', // Replace with the actual source layer name in your tileset
             'paint': {
                 'circle-radius': 5,
-                'circle-color': '#007cbf'
+                'circle-color': '#088188'
             }
         });
 
@@ -52,7 +52,7 @@
 
             new mapboxgl.Popup()
                 .setLngLat(coordinates)
-                .setHTML('<strong>' + name + '</strong><br>Cohort: ' + cohort)
+                .setHTML('<strong>' + name + '<br>' + cohort)
                 .addTo(map);
         });
 
