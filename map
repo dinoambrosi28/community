@@ -1,0 +1,69 @@
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>Community Members Map</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1' />
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css' rel='stylesheet' />
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js'></script>
+</head>
+<body>
+    <div id='map' style='width: 100%; height: 600px;'></div>
+
+    <script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoiZGlub2FtYnJvc2kiLCJhIjoiY2x3Y2U4MjV2MHZhbDJxcDByMmVzd2kyNSJ9.1FanMfO4Y7X9SGuBaT6tjw'; // Replace with your Mapbox access token
+
+    var map = new mapboxgl.Map({
+        container: 'map', // Container ID
+        style: 'mapbox://styles/dinoambrosi/clwcebewx00cx01q1ftyxcwwe', // Replace with your style URL
+        center: [0, 0], // Starting position [lng, lat]
+        zoom: 2 // Starting zoom
+    });
+
+    map.on('load', function () {
+        // Add your tileset as a source
+        map.addSource('community-members', {
+            type: 'geojson',
+            data: 'dinoambrosi.clwchb04h55441uph66oe9xfw-00hl5' // Replace with your tileset URL
+        });
+
+        // Add a layer to use the source
+        map.addLayer({
+            id: 'community-members-layer',
+            type: 'circle',
+            source: 'community-members',
+            paint: {
+                'circle-radius': 5,
+                'circle-color': '#007cbf'
+            }
+        });
+
+        // Add popups
+        map.on('click', 'community-members-layer', function (e) {
+            var coordinates = e.features[0].geometry.coordinates.slice();
+            var name = e.features[0].properties.name;
+            var cohort = e.features[0].properties.cohort;
+
+            // Ensure that if the map is zoomed out such that multiple copies of the feature are visible, the popup appears over the copy being pointed to.
+            while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+            }
+
+            new mapboxgl.Popup()
+                .setLngLat(coordinates)
+                .setHTML('<strong>' + name + '</strong><br>Cohort: ' + cohort)
+                .addTo(map);
+        });
+
+        // Change the cursor to a pointer when the mouse is over the places layer.
+        map.on('mouseenter', 'community-members-layer', function () {
+            map.getCanvas().style.cursor = 'pointer';
+        });
+
+        // Change it back to a pointer when it leaves.
+        map.on('mouseleave', 'community-members-layer', function () {
+            map.getCanvas().style.cursor = '';
+        });
+    });
+    </script>
+</body>
+</html>
